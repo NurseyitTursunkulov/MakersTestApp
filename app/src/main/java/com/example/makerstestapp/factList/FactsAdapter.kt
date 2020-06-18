@@ -12,16 +12,16 @@ import com.example.makerstestapp.databinding.FactItemBinding
 
 class FactsAdapter(
     private val viewModel: FactsViewModel
-) : ListAdapter<Item, FactsAdapter.ViewHolder>(diffCallback) {
+) : ListAdapter<Item, FactsAdapter.ViewHolder>(TaskDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
 
         holder.bind(viewModel, item)
 
-        if (isUserReachedTheBottom(position) && repositoryHasMoreItems()) {
-            viewModel.loadFacts()
-        }
+//        if (isUserReachedTheBottom(position) && repositoryHasMoreItems()) {
+//            viewModel.loadFacts()
+//        }
     }
 
     private fun repositoryHasMoreItems(): Boolean {
@@ -63,17 +63,14 @@ class FactsAdapter(
         }
     }
 
-    companion object {
+}
+class TaskDiffCallback :  DiffUtil.ItemCallback<Item>() {
+    override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean =
+        oldItem.id == newItem.id
 
-        private val diffCallback = object : DiffUtil.ItemCallback<Item>() {
-            override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean =
-                oldItem.id == newItem.id
-
-            override fun areContentsTheSame(
-                oldItem: Item,
-                newItem: Item
-            ): Boolean =
-                oldItem == newItem
-        }
-    }
+    override fun areContentsTheSame(
+        oldItem: Item,
+        newItem: Item
+    ): Boolean =
+        oldItem == newItem
 }

@@ -1,10 +1,10 @@
 package com.example.data
 
-import com.google.gson.Gson
-
 
 interface ItemsRepository {
     val itemsRepositoryUtil: ItemsRepositoryUtil
-    suspend fun getFacts(page: Int): Result<List<Item>>
+    suspend fun getItems(page: Int): Result<List<Item>>
+    suspend fun getItemsSortedByPrice():Result<List<Item>>
+    suspend fun getItemsSortedByCategory():Result<List<Item>>
 }
 

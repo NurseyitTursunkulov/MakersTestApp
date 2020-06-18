@@ -10,6 +10,7 @@ import com.example.domain.GetItemsUseCase
 import com.example.makerstestapp.factList.postListValue
 import com.example.makerstestapp.util.Event
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -25,8 +26,8 @@ class FactsViewModel(val getFactsUseCase: GetItemsUseCase) : ViewModel() {
     val snackbarText: LiveData<Event<String>> = _snackbarText
 
     private val _items =
-        MutableLiveData<MutableList<Item>>().apply { value = mutableListOf() }
-    val items: LiveData<MutableList<Item>> = _items
+        MutableLiveData<List<Item>>().apply { value = mutableListOf() }
+    val items: LiveData<List<Item>> = _items
 
     private val _totalItemsSize = MutableLiveData<Int>()
     val totalItemsSize: LiveData<Int> = _totalItemsSize
@@ -64,32 +65,48 @@ class FactsViewModel(val getFactsUseCase: GetItemsUseCase) : ViewModel() {
         _openDetailsEvent.value = Event(factItemModel)
     }
 
-    private fun showSnackbarMessage(message: String) {
-        _snackbarText.postValue(Event(message))
-    }
-
-    fun refreshData() {
+    fun sortItemsByPrice() {
         _dataLoading.postValue(true)
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-//                var result = getFactsUseCase.refreshFactsRepository()
-//                if (result is Result.Success) {
-//                    _isDataLoadingError.postValue(false)
-//                    getFactsUseCase.page = STARTING_PAGE
-//                    _items.postValue(mutableListOf())
-//                    withContext(Dispatchers.Main) {
-//                        loadFacts()
-//                    }
-//                } else {
-//                    _isDataLoadingError.postValue(true)
-//                    _items.postValue(mutableListOf())
-//                    showSnackbarMessage(result.toString())
-//                }
-//
-//                _dataLoading.postValue(false)
-            }
+                var result = getFactsUseCase.getItemsSortedByPrice()
+                if (result is Result.Success) {
+                    _isDataLoadingError.postValue(false)
+                    getFactsUseCase.page = STARTING_PAGE
+                    refreshAdapter()
+                    _items.postValue(result.data)
+                } else {
+                    _isDataLoadingError.postValue(true)
+                    _items.postValue(mutableListOf())
+                    showSnackbarMessage(result.toString())
+                }
+                _dataLoading.postValue(false)
         }
 
+    }
+
+    fun sortItemsByCategory() {
+        _dataLoading.postValue(true)
+        viewModelScope.launch {
+            var result = getFactsUseCase.getItemsSortedByCategory()
+            if (result is Result.Success) {
+                _isDataLoadingError.postValue(false)
+                getFactsUseCase.page = STARTING_PAGE
+                refreshAdapter()
+                _items.postValue(result.data.toMutableList())
+            } else {
+                _isDataLoadingError.postValue(true)
+                _items.postValue(mutableListOf())
+                showSnackbarMessage(result.toString())
+            }
+            _dataLoading.postValue(false)
+        }
+
+    }
+
+    /**this fun is for ListAdapter, if postValue() immediately it keeps item's position in RecView*/
+    private suspend fun refreshAdapter() {
+        _items.postValue(emptyList())
+        delay(200)
     }
 
     fun loadFactsItemsSize() {
@@ -98,6 +115,10 @@ class FactsViewModel(val getFactsUseCase: GetItemsUseCase) : ViewModel() {
                 _totalItemsSize.postValue(getFactsUseCase.getFactsItemsSize())
             }
         }
+    }
+
+    private fun showSnackbarMessage(message: String) {
+        _snackbarText.postValue(Event(message))
     }
 
     override fun onCleared() {

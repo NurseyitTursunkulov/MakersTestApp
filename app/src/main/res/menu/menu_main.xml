@@ -3,8 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.makerstestapp.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/sort_by_category"
         android:orderInCategory="100"
-        android:title="@string/action_reload"
+        android:title="фильтр по категории"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/sort_by_price"
+        android:orderInCategory="100"
+        android:title="фильтр по цене"
         app:showAsAction="never" />
 </menu>
