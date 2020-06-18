@@ -6,7 +6,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.data.Item
 import com.example.makerstestapp.util.Event
@@ -20,12 +19,6 @@ fun FactsFragment.setupListAdapter() {
             adapter = listAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
-            addItemDecoration(
-                DividerItemDecoration(
-                    context,
-                    LinearLayoutManager.VERTICAL
-                )
-            )
         }
         viewDataBinding.lifecycleOwner = this
     } else {
