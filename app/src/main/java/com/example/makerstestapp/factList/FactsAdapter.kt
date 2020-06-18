@@ -5,12 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.data.FactItemModel
+import com.example.data.Item
+import com.example.makerstestapp.FactsViewModel
 import com.example.makerstestapp.databinding.FactItemBinding
 
 class FactsAdapter(
     private val viewModel: FactsViewModel
-) : ListAdapter<FactItemModel, FactsAdapter.ViewHolder>(diffCallback) {
+) : ListAdapter<Item, FactsAdapter.ViewHolder>(diffCallback) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
@@ -42,7 +43,7 @@ class FactsAdapter(
     class ViewHolder private constructor(val binding: FactItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(viewModel: FactsViewModel, newsModel: FactItemModel) {
+        fun bind(viewModel: FactsViewModel, newsModel: Item) {
 
             binding.viewmodel = viewModel
             binding.factItem = newsModel
@@ -61,13 +62,13 @@ class FactsAdapter(
 
     companion object {
 
-        private val diffCallback = object : DiffUtil.ItemCallback<FactItemModel>() {
-            override fun areItemsTheSame(oldItem: FactItemModel, newItem: FactItemModel): Boolean =
-                oldItem.factNumber == newItem.factNumber
+        private val diffCallback = object : DiffUtil.ItemCallback<Item>() {
+            override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean =
+                oldItem.id == newItem.id
 
             override fun areContentsTheSame(
-                oldItem: FactItemModel,
-                newItem: FactItemModel
+                oldItem: Item,
+                newItem: Item
             ): Boolean =
                 oldItem == newItem
         }

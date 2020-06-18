@@ -1,18 +1,19 @@
-package com.example.makerstestapp.factList
+package com.example.makerstestapp
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.FactItemModel
+import com.example.data.Item
 import com.example.data.Result
-import com.example.domain.GetFactsUseCase
+import com.example.domain.GetItemsUseCase
+import com.example.makerstestapp.factList.postListValue
 import com.example.makerstestapp.util.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FactsViewModel(val getFactsUseCase: GetFactsUseCase) : ViewModel() {
+class FactsViewModel(val getFactsUseCase: GetItemsUseCase) : ViewModel() {
 
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
@@ -24,14 +25,14 @@ class FactsViewModel(val getFactsUseCase: GetFactsUseCase) : ViewModel() {
     val snackbarText: LiveData<Event<String>> = _snackbarText
 
     private val _items =
-        MutableLiveData<MutableList<FactItemModel>>().apply { value = mutableListOf() }
-    val items: LiveData<MutableList<FactItemModel>> = _items
+        MutableLiveData<MutableList<Item>>().apply { value = mutableListOf() }
+    val items: LiveData<MutableList<Item>> = _items
 
     private val _totalItemsSize = MutableLiveData<Int>()
     val totalItemsSize: LiveData<Int> = _totalItemsSize
 
-    private val _openDetailsEvent = MutableLiveData<Event<FactItemModel>>()
-    val openDetailsEvent: LiveData<Event<FactItemModel>> = _openDetailsEvent
+    private val _openDetailsEvent = MutableLiveData<Event<Item>>()
+    val openDetailsEvent: LiveData<Event<Item>> = _openDetailsEvent
 
     private val STARTING_PAGE = 1
 
@@ -59,7 +60,7 @@ class FactsViewModel(val getFactsUseCase: GetFactsUseCase) : ViewModel() {
 
     }
 
-    fun openDetails(factItemModel: FactItemModel) {
+    fun openDetails(factItemModel: Item) {
         _openDetailsEvent.value = Event(factItemModel)
     }
 
@@ -71,21 +72,21 @@ class FactsViewModel(val getFactsUseCase: GetFactsUseCase) : ViewModel() {
         _dataLoading.postValue(true)
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                var result = getFactsUseCase.refreshFactsRepository()
-                if (result is Result.Success) {
-                    _isDataLoadingError.postValue(false)
-                    getFactsUseCase.page = STARTING_PAGE
-                    _items.postValue(mutableListOf())
-                    withContext(Dispatchers.Main) {
-                        loadFacts()
-                    }
-                } else {
-                    _isDataLoadingError.postValue(true)
-                    _items.postValue(mutableListOf())
-                    showSnackbarMessage(result.toString())
-                }
-
-                _dataLoading.postValue(false)
+//                var result = getFactsUseCase.refreshFactsRepository()
+//                if (result is Result.Success) {
+//                    _isDataLoadingError.postValue(false)
+//                    getFactsUseCase.page = STARTING_PAGE
+//                    _items.postValue(mutableListOf())
+//                    withContext(Dispatchers.Main) {
+//                        loadFacts()
+//                    }
+//                } else {
+//                    _isDataLoadingError.postValue(true)
+//                    _items.postValue(mutableListOf())
+//                    showSnackbarMessage(result.toString())
+//                }
+//
+//                _dataLoading.postValue(false)
             }
         }
 

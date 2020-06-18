@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.example.makerstestapp.R
-import com.example.makerstestapp.factList.FactsViewModel
+import com.example.makerstestapp.FactsViewModel
 import kotlinx.android.synthetic.main.fragment_details.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
@@ -24,7 +24,7 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         factsViewModel.openDetailsEvent.observe(viewLifecycleOwner, Observer {
-            details_textview.text = it.peekContent().factDescription
+            details_textview.text = it.peekContent().desc
         })
     }
 }

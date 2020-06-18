@@ -1,16 +1,13 @@
 package com.example.makerstestapp
 
 import android.app.Application
-import com.example.data.FactRepositoryImpl
-import com.example.data.FactsRepository
-import com.example.data.FactsRepositoryUtil
-import com.example.data.FactsRepositoryUtilImpl
-import com.example.data.local.FactsDao
-import com.example.data.local.FactsDataBase
-import com.example.data.remote.FactServiceApi
-import com.example.domain.GetFactsUseCase
+import android.content.res.AssetManager
+import com.example.data.ItemsRepository
+import com.example.data.ItemsRepositoryImpl
+import com.example.data.ItemsRepositoryUtil
+import com.example.data.ItemsRepositoryUtilImpl
 import com.example.domain.GetFactsUseCaseImpl
-import com.example.makerstestapp.factList.FactsViewModel
+import com.example.domain.GetItemsUseCase
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
@@ -36,42 +33,22 @@ class App : Application() {
 
     val appModule = module {
 
-        factory {
-            OkHttpClient.Builder()
-                .connectTimeout(5, TimeUnit.SECONDS)
-                .readTimeout(5, TimeUnit.SECONDS)
-                .build()
-        }
-
-        single {
-            Retrofit.Builder()
-                .client(get())
-                .baseUrl("https://catfact.ninja/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(CoroutineCallAdapterFactory())
-                .build()
-        }
-
-        factory { get<Retrofit>().create(FactServiceApi::class.java) }
-
-        single<FactsRepositoryUtil> {
-            FactsRepositoryUtilImpl(
-                factServiceApi = get(),
-                factsDao = get()
+        single<ItemsRepositoryUtil> {
+            ItemsRepositoryUtilImpl(
+                content = androidApplication().assets.readAssetsFile("MOCK_DATA.json")
             )
         }
-
-        single<FactsRepository> {
-            FactRepositoryImpl(
-                factServiceApi = get(),
-                factsDao = get(),
-                factsRepositoryUtil = get()
+        single<ItemsRepository> {
+            ItemsRepositoryImpl(
+                itemsRepositoryUtil = get(),
+                content = androidApplication().assets.readAssetsFile("MOCK_DATA.json")
             )
         }
-
-        single<GetFactsUseCase> { GetFactsUseCaseImpl(factRepository = get()) }
+        single<GetItemsUseCase> { GetFactsUseCaseImpl(factRepository = get()) }
         viewModel { FactsViewModel(getFactsUseCase = get()) }
 
-        single<FactsDao> { FactsDataBase.getInstance(androidApplication()).factsDao() }
     }
+
+    fun AssetManager.readAssetsFile(fileName: String): String =
+        open(fileName).bufferedReader().use { it.readText() }
 }

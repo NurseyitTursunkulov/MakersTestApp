@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.example.makerstestapp.FactsViewModel
 import com.example.makerstestapp.R
 import com.example.makerstestapp.databinding.FragmentFactsBinding
 import com.example.makerstestapp.util.EventObserver

@@ -3,27 +3,18 @@ package com.example.data
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
-@Entity
-data class FactItemModel(
-        @PrimaryKey var factNumber: Int,
-        @SerializedName("fact")
-        var factDescription: String = ""
+
+data class Item(
+    var name: String = "",
+    var price: Int = 0,
+    var desc: String = "",
+    var company: String = "",
+    var category: String,
+    @PrimaryKey
+    var id: String = UUID.randomUUID().toString(),
+    var img: String = ""
 )
 
-@Entity
-data class TotalFactsSize(
-        @PrimaryKey
-        var size: Int
-)
-
-data class FactListModel(
-        @SerializedName("data")
-        var data: List<FactItemModel>,
-        @SerializedName("total")
-        var totalItemsSize: Int,
-        @SerializedName("from")
-        var fromIndex:Int,
-        @SerializedName("to")
-        var toIndex:Int
-)
+data class ItemListModel(var data: List<Item>)

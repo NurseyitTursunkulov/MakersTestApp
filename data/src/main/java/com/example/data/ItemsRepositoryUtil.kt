@@ -1,6 +1,6 @@
 package com.example.data
 
-interface FactsRepositoryUtil {
+interface ItemsRepositoryUtil {
     val START_PAGE: Int
         get() = 1
 

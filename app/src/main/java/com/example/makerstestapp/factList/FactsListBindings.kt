@@ -17,12 +17,12 @@ package com.example.makerstestapp.factList
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.data.FactItemModel
+import com.example.data.Item
 
 /**
  * [BindingAdapter]s for the [Task]s list.
  */
 @BindingAdapter("app:items")
-fun setItems(listView: RecyclerView, items: List<FactItemModel>) {
+fun setItems(listView: RecyclerView, items: List<Item>) {
     (listView.adapter as FactsAdapter).submitList(items)
 }

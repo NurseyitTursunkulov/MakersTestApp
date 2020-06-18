@@ -9,11 +9,11 @@
 
         <variable
             name="fact_item"
-            type="com.example.data.FactItemModel" />
+            type="com.example.data.Item" />
 
         <variable
             name="viewmodel"
-            type="com.example.makerstestapp.factList.FactsViewModel" />
+            type="com.example.makerstestapp.FactsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +29,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
-            android:text="@{fact_item.factDescription}"
+            android:text="@{fact_item.name}"
             android:textAlignment="center"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -45,7 +45,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="@{`Fact ` + Integer.toString(fact_item.factNumber)}"
+            android:text="@{fact_item.company}"
             app:layout_constraintBottom_toTopOf="@+id/title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

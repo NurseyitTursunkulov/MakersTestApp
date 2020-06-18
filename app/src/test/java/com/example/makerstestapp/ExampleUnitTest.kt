@@ -4,7 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.data.FactItemModel
 import com.example.data.Result
 import com.example.domain.GetFactsUseCase
-import com.example.makerstestapp.factList.FactsViewModel
 import com.example.testrussia.LiveDataTestUtil
 import com.example.testrussia.MainCoroutineRule
 import com.example.testrussia.assertLiveDataEventTriggered

@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.data.FactItemModel
+import com.example.data.Item
 import com.example.makerstestapp.util.Event
 import com.google.android.material.snackbar.Snackbar
 
@@ -38,10 +38,10 @@ fun FactsFragment.setupListAdapter() {
     })
 }
 
-fun MutableLiveData<MutableList<FactItemModel>>.postListValue(
-    factsResult: List<FactItemModel>
+fun MutableLiveData<MutableList<Item>>.postListValue(
+    factsResult: List<Item>
 ) {
-    val list = mutableListOf<FactItemModel>()
+    val list = mutableListOf<Item>()
     this.value?.let {
         list.addAll(it)
     }
