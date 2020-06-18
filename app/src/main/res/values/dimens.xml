@@ -1,3 +1,19 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="callout_line_spacing_extra">4dp</dimen>
+    <dimen name="grid_1_half">3dp</dimen>
+
+    <!-- Typography-->
+    <dimen name="caption_2">11sp</dimen>
+    <dimen name="caption_1">12sp</dimen>
+    <dimen name="footnote">13sp</dimen>
+    <dimen name="body">14sp</dimen>
+    <dimen name="subheadline">15sp</dimen>
+    <dimen name="callout">16sp</dimen>
+    <dimen name="headline">18sp</dimen>
+    <dimen name="title_3">20sp</dimen>
+    <dimen name="title_2">22sp</dimen>
+    <dimen name="title_reward">24sp</dimen>
+    <dimen name="title_1">28sp</dimen>
+    <dimen name="title_thank_you">36sp</dimen>
 </resources>

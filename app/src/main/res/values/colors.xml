@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#592AC3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="white" >#FFFFFF</color>
+    <color name="ksr_green_700">#037362</color>
+    <color name="text_primary">@color/ksr_soft_black</color>
+    <color name="ksr_soft_black">#282828</color>
+    <color name="ksr_cobalt_500">#4C6CF8</color>
 </resources>

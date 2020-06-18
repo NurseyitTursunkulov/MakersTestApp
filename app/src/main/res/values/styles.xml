@@ -15,5 +15,31 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!-- Typography -->
+    <style name="TextPrimary">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@string/font_family_sans_serif</item>
+    </style>
+    <style name="CalloutPrimary" parent="TextPrimary">
+        <item name="android:textSize">@dimen/callout</item>
+        <item name="android:lineSpacingExtra">@dimen/callout_line_spacing_extra</item>
+    </style>
 
+    <style name="CalloutPrimaryMedium" parent="CalloutPrimary">
+        <item name="android:fontFamily">@string/font_family_sans_serif_medium</item>
+    </style>
+    <style name="Title2Medium" parent="TextPrimary">
+        <item name="android:textSize">@dimen/title_2</item>
+        <item name="android:fontFamily">@string/font_family_sans_serif_medium</item>
+    </style>
+    <style name="Subheadline" parent="TextPrimary">
+        <item name="android:textSize">@dimen/subheadline</item>
+    </style>
+    <style name="FootnotePrimaryMedium" parent="FootnotePrimary">
+        <item name="android:fontFamily">@string/font_family_sans_serif_medium</item>
+    </style>
+    <style name="FootnotePrimary" parent="TextPrimary">
+        <item name="android:textSize">@dimen/footnote</item>
+    </style>
 </resources>
