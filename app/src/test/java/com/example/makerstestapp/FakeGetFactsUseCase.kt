@@ -21,14 +21,15 @@ class FakeGetFactsUseCase : GetItemsUseCase {
     }
 
     override suspend fun getItemsSortedByPrice(): Result<List<Item>> {
-
         return Result.Success(items.values.toList().sortedBy {
             it.price
         })
     }
 
     override suspend fun getItemsSortedByCategory(): Result<List<Item>> {
-        TODO("Not yet implemented")
+        return Result.Success(items.values.toList().sortedBy {
+            it.category
+        })
     }
 
     @VisibleForTesting

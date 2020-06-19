@@ -48,7 +48,7 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun `factsViewModel loadFacts() loading Toggles And DataLoaded`() = runBlocking<Unit> {
+    fun `ViewModel loadItems() loading Toggles And DataLoaded`() = runBlocking<Unit> {
         // Pause dispatcher so we can verify initial values
         mainCoroutineRule.pauseDispatcher()
 
@@ -70,7 +70,7 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun `click on open fact detail sets event`() {
+    fun `click on open item detail sets event`() {
 
         val newsModel = Item(price = 1,category = "cat1")
         factsViewModel.openDetails(newsModel)
@@ -80,7 +80,7 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun `loadFacts() with failure result shows snackBar message`() = runBlocking<Unit> {
+    fun `loadItems() with failure result shows snackBar message`() = runBlocking<Unit> {
 
         val exception = "just exception"
         (fakeUseCase as FakeGetFactsUseCase).result = Result.Error(Exception(exception))
@@ -105,5 +105,55 @@ class ExampleUnitTest {
             factsViewModel.snackbarText,
             "Error(exception=java.lang.Exception: $exception)"
         )
+    }
+
+    @Test
+    fun `loadSortedItemsByPrice() should return`()= runBlocking<Unit>{
+        mainCoroutineRule.pauseDispatcher()
+
+        // Trigger loading of tasks
+        factsViewModel.sortItemsByPrice()
+
+        // Then progress indicator is shown
+        Truth.assertThat(LiveDataTestUtil.getValue(factsViewModel.dataLoading)).isTrue()
+
+        // Execute pending coroutines actions
+        mainCoroutineRule.resumeDispatcher()
+
+        // Then progress indicator is hidden
+        Truth.assertThat(LiveDataTestUtil.getValue(factsViewModel.dataLoading)).isFalse()
+
+        // And data correctly loaded
+        Truth.assertThat(LiveDataTestUtil.getValue(factsViewModel.items)).hasSize(4)
+        Truth.assertThat(LiveDataTestUtil.getValue(factsViewModel.items)[0].price).isEqualTo(1)
+        Truth.assertThat(LiveDataTestUtil.getValue(factsViewModel.items)[1].price).isEqualTo(2)
+        Truth.assertThat(LiveDataTestUtil.getValue(factsViewModel.items)[2].price).isEqualTo(3)
+        Truth.assertThat(LiveDataTestUtil.getValue(factsViewModel.items)[3].price).isEqualTo(4)
+
+    }
+
+    @Test
+    fun `loadSortedItemsByCategory() should return`()= runBlocking<Unit>{
+        mainCoroutineRule.pauseDispatcher()
+
+        // Trigger loading of tasks
+        factsViewModel.sortItemsByCategory()
+
+        // Then progress indicator is shown
+        Truth.assertThat(LiveDataTestUtil.getValue(factsViewModel.dataLoading)).isTrue()
+
+        // Execute pending coroutines actions
+        mainCoroutineRule.resumeDispatcher()
+
+        // Then progress indicator is hidden
+        Truth.assertThat(LiveDataTestUtil.getValue(factsViewModel.dataLoading)).isFalse()
+
+        // And data correctly loaded
+        Truth.assertThat(LiveDataTestUtil.getValue(factsViewModel.items)).hasSize(4)
+        Truth.assertThat(LiveDataTestUtil.getValue(factsViewModel.items)[0].category).isEqualTo("cat1")
+        Truth.assertThat(LiveDataTestUtil.getValue(factsViewModel.items)[1].category).isEqualTo("cat2")
+        Truth.assertThat(LiveDataTestUtil.getValue(factsViewModel.items)[2].category).isEqualTo("cat3")
+        Truth.assertThat(LiveDataTestUtil.getValue(factsViewModel.items)[3].category).isEqualTo("cat4")
+
     }
 }
