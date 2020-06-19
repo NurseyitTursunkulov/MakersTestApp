@@ -14,7 +14,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FactsViewModel(val getFactsUseCase: GetItemsUseCase) : ViewModel() {
+class MainViewModel(val getItemsUseCase: GetItemsUseCase) : ViewModel() {
 
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
@@ -44,7 +44,7 @@ class FactsViewModel(val getFactsUseCase: GetItemsUseCase) : ViewModel() {
     fun loadFacts() {
         _dataLoading.value = true
         viewModelScope.launch {
-            val factsResult = getFactsUseCase()
+            val factsResult = getItemsUseCase()
             if (factsResult is Result.Success) {
                 _isDataLoadingError.postValue(false)
                 _items.postListValue(factsResult.data)
@@ -68,10 +68,10 @@ class FactsViewModel(val getFactsUseCase: GetItemsUseCase) : ViewModel() {
     fun sortItemsByPrice() {
         _dataLoading.postValue(true)
         viewModelScope.launch {
-                var result = getFactsUseCase.getItemsSortedByPrice()
+                var result = getItemsUseCase.getItemsSortedByPrice()
                 if (result is Result.Success) {
                     _isDataLoadingError.postValue(false)
-                    getFactsUseCase.page = STARTING_PAGE
+                    getItemsUseCase.page = STARTING_PAGE
                     refreshAdapter()
                     _items.postValue(result.data)
                 } else {
@@ -87,10 +87,10 @@ class FactsViewModel(val getFactsUseCase: GetItemsUseCase) : ViewModel() {
     fun sortItemsByCategory() {
         _dataLoading.postValue(true)
         viewModelScope.launch {
-            var result = getFactsUseCase.getItemsSortedByCategory()
+            var result = getItemsUseCase.getItemsSortedByCategory()
             if (result is Result.Success) {
                 _isDataLoadingError.postValue(false)
-                getFactsUseCase.page = STARTING_PAGE
+                getItemsUseCase.page = STARTING_PAGE
                 refreshAdapter()
                 _items.postValue(result.data.toMutableList())
             } else {
@@ -112,7 +112,7 @@ class FactsViewModel(val getFactsUseCase: GetItemsUseCase) : ViewModel() {
     fun loadFactsItemsSize() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _totalItemsSize.postValue(getFactsUseCase.getFactsItemsSize())
+                _totalItemsSize.postValue(getItemsUseCase.getFactsItemsSize())
             }
         }
     }
@@ -123,6 +123,6 @@ class FactsViewModel(val getFactsUseCase: GetItemsUseCase) : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        getFactsUseCase.page = STARTING_PAGE
+        getItemsUseCase.page = STARTING_PAGE
     }
 }

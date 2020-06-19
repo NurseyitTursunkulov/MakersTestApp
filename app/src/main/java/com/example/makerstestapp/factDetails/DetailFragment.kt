@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.example.makerstestapp.FactsViewModel
+import com.example.makerstestapp.MainViewModel
 import com.example.makerstestapp.R
 import kotlinx.android.synthetic.main.fragment_details.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class DetailFragment : Fragment() {
-    val factsViewModel : FactsViewModel by sharedViewModel()
+    val viewModel : MainViewModel by sharedViewModel()
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -25,7 +25,7 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        factsViewModel.openDetailsEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.openDetailsEvent.observe(viewLifecycleOwner, Observer {
             val item = it.peekContent()
             Glide.with(this).load(item.img).centerCrop().into( imageView2);
             item_name.text = item.name

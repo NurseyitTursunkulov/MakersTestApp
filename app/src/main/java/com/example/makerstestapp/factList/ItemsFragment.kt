@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.makerstestapp.FactsViewModel
+import com.example.makerstestapp.MainViewModel
 import com.example.makerstestapp.R
 import com.example.makerstestapp.databinding.FragmentFactsBinding
 import com.example.makerstestapp.util.EventObserver
@@ -14,13 +14,13 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_facts.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
-class FactsFragment : Fragment() {
+class ItemsFragment : Fragment() {
 
-    val factsViewModel : FactsViewModel by sharedViewModel()
+    val mainViewModel : MainViewModel by sharedViewModel()
 
     lateinit var viewDataBinding: FragmentFactsBinding
 
-    lateinit var listAdapter: FactsAdapter
+    lateinit var listAdapter: ItemsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +28,7 @@ class FactsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         viewDataBinding = FragmentFactsBinding.inflate(inflater, container, false).apply {
-            viewmodel = factsViewModel
+            viewmodel = mainViewModel
         }
         setHasOptionsMenu(true)
         return viewDataBinding.root
@@ -39,9 +39,9 @@ class FactsFragment : Fragment() {
         setHasOptionsMenu(true)
         super.onViewCreated(view, savedInstanceState)
         setupListAdapter()
-        view.setupSnackbar(viewLifecycleOwner, factsViewModel.snackbarText, Snackbar.LENGTH_SHORT)
+        view.setupSnackbar(viewLifecycleOwner, mainViewModel.snackbarText, Snackbar.LENGTH_SHORT)
 
-        factsViewModel.openDetailsEvent.observe(viewLifecycleOwner, EventObserver{
+        mainViewModel.openDetailsEvent.observe(viewLifecycleOwner, EventObserver{
             findNavController().navigate(R.id.action_FactsFragment_to_DetailFragment)
         })
     }

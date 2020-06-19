@@ -11,7 +11,7 @@
 
         <variable
             name="viewmodel"
-            type="com.example.makerstestapp.FactsViewModel" />
+            type="com.example.makerstestapp.MainViewModel" />
 
     </data>
 

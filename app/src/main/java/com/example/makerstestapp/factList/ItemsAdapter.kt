@@ -7,21 +7,45 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.data.Item
-import com.example.makerstestapp.FactsViewModel
+import com.example.makerstestapp.MainViewModel
 import com.example.makerstestapp.databinding.FactItemBinding
 
-class FactsAdapter(
-    private val viewModel: FactsViewModel
-) : ListAdapter<Item, FactsAdapter.ViewHolder>(TaskDiffCallback()) {
+class ItemsAdapter(
+    private val viewModel: MainViewModel
+) : ListAdapter<Item, ItemsAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
 
         holder.bind(viewModel, item)
 
-//        if (isUserReachedTheBottom(position) && repositoryHasMoreItems()) {
-//            viewModel.loadFacts()
-//        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder.from(parent)
+    }
+
+    class ViewHolder private constructor(val binding: FactItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(viewModel: MainViewModel, newsModel: Item) {
+
+            binding.viewmodel = viewModel
+            binding.factItem = newsModel
+            Glide.with(binding.root.context).load(newsModel.img).centerCrop().into( binding.imageView);
+
+            binding.executePendingBindings()
+        }
+
+        companion object {
+
+            fun from(parent: ViewGroup): ViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = FactItemBinding.inflate(layoutInflater, parent, false)
+
+                return ViewHolder(binding)
+            }
+        }
     }
 
     private fun repositoryHasMoreItems(): Boolean {
@@ -37,34 +61,8 @@ class FactsAdapter(
         return position + 1 == viewModel.items.value?.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
-    }
-
-    class ViewHolder private constructor(val binding: FactItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(viewModel: FactsViewModel, newsModel: Item) {
-
-            binding.viewmodel = viewModel
-            binding.factItem = newsModel
-            Glide.with(binding.root.context).load(newsModel.img).centerCrop().into( binding.imageView);
-
-            binding.executePendingBindings()
-        }
-
-        companion object {
-            fun from(parent: ViewGroup): ViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = FactItemBinding.inflate(layoutInflater, parent, false)
-
-                return ViewHolder(binding)
-            }
-        }
-    }
-
 }
-class TaskDiffCallback :  DiffUtil.ItemCallback<Item>() {
+class DiffCallback :  DiffUtil.ItemCallback<Item>() {
     override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean =
         oldItem.id == newItem.id
 

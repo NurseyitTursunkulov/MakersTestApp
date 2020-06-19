@@ -7,7 +7,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class GetFactsUseCaseImpl(
+class GetItemsUseCaseImpl(
     val factRepository: ItemsRepository,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : GetItemsUseCase {

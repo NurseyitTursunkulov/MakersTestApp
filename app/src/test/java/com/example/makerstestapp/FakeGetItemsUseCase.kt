@@ -5,7 +5,7 @@ import com.example.data.Item
 import com.example.data.Result
 import com.example.domain.GetItemsUseCase
 
-class FakeGetFactsUseCase : GetItemsUseCase {
+class FakeGetItemsUseCase : GetItemsUseCase {
     val items: LinkedHashMap<Int, Item> = LinkedHashMap()
     var result: Result<List<Item>>?=null
     private val startPage = 1

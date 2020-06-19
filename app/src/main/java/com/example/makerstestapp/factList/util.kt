@@ -14,10 +14,10 @@ import com.example.makerstestapp.util.Event
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_facts.*
 
-fun FactsFragment.setupListAdapter() {
+fun ItemsFragment.setupListAdapter() {
     val viewModel = viewDataBinding.viewmodel
     if (viewModel != null) {
-        listAdapter = FactsAdapter(viewModel)
+        listAdapter = ItemsAdapter(viewModel)
         viewDataBinding.newsList.apply {
             adapter = listAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -34,18 +34,16 @@ fun FactsFragment.setupListAdapter() {
     })
 }
 
-fun FactsFragment.setMenuItemClickListener() {
+fun ItemsFragment.setMenuItemClickListener() {
     toolbar.menu.children.iterator().forEach {
         it.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.sort_by_price -> {
-                    Log.d("Nurs", "sort foreach")
-                    factsViewModel.sortItemsByPrice()
+                    mainViewModel.sortItemsByPrice()
                     true
                 }
                 R.id.sort_by_category -> {
-                    Log.d("Nurs", "sort foreach")
-                    factsViewModel.sortItemsByCategory()
+                    mainViewModel.sortItemsByCategory()
                     true
                 }
                 else -> false

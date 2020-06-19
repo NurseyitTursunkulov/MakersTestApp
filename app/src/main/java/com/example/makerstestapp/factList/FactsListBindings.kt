@@ -24,5 +24,5 @@ import com.example.data.Item
  */
 @BindingAdapter("app:items")
 fun setItems(listView: RecyclerView, items: List<Item>) {
-    (listView.adapter as FactsAdapter).submitList(items)
+    (listView.adapter as ItemsAdapter).submitList(items)
 }

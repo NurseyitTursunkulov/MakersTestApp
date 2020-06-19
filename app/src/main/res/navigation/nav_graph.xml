@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FactsFragment"
-        android:name="com.example.makerstestapp.factList.FactsFragment"
+        android:name="com.example.makerstestapp.factList.ItemsFragment"
         android:label="@string/facts_fragment_label"
         tools:layout="@layout/fragment_facts">
 
