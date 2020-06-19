@@ -1,9 +1,9 @@
 package com.example.makerstestapp
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.data.FactItemModel
+import com.example.data.Item
 import com.example.data.Result
-import com.example.domain.GetFactsUseCase
+import com.example.domain.GetItemsUseCase
 import com.example.testrussia.LiveDataTestUtil
 import com.example.testrussia.MainCoroutineRule
 import com.example.testrussia.assertLiveDataEventTriggered
@@ -11,11 +11,9 @@ import com.example.testrussia.assertSnackbarMessage
 import com.google.common.truth.Truth
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import org.junit.Test
-
 import org.junit.Before
 import org.junit.Rule
-import java.lang.Exception
+import org.junit.Test
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -25,7 +23,7 @@ import java.lang.Exception
 @ExperimentalCoroutinesApi
 class ExampleUnitTest {
     private lateinit var factsViewModel: FactsViewModel
-    private lateinit var fakeUseCase: GetFactsUseCase
+    private lateinit var fakeUseCase: GetItemsUseCase
 
     @ExperimentalCoroutinesApi
     @get:Rule
@@ -38,10 +36,10 @@ class ExampleUnitTest {
     @Before
     fun setupViewModel() {
         fakeUseCase = FakeGetFactsUseCase()
-        val newsModel = FactItemModel(factDescription = ("Title1"), factNumber = 1)
-        val newsModel1 = FactItemModel(factDescription = ("Title1"), factNumber = 2)
-        val newsModel2 = FactItemModel(factDescription = ("Title1"), factNumber = 3)
-        val newsModel3 = FactItemModel(factDescription = ("Title1"), factNumber = 4)
+        val newsModel = Item(price = 1,category = "cat1")
+        val newsModel3 = Item(price = 4,category = "cat4")
+        val newsModel2 = Item(price = 3,category = "cat3")
+        val newsModel1 = Item(price = 2,category = "cat2")
 
         factsViewModel = FactsViewModel(
             fakeUseCase
@@ -74,7 +72,7 @@ class ExampleUnitTest {
     @Test
     fun `click on open fact detail sets event`() {
 
-        val newsModel = FactItemModel(factDescription = ("Title1"), factNumber = 1)
+        val newsModel = Item(price = 1,category = "cat1")
         factsViewModel.openDetails(newsModel)
 
         // Then the event is triggered

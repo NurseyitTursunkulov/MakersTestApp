@@ -1,34 +1,42 @@
 package com.example.makerstestapp
 
 import androidx.annotation.VisibleForTesting
-import com.example.data.FactItemModel
+import com.example.data.Item
 import com.example.data.Result
-import com.example.domain.GetFactsUseCase
+import com.example.domain.GetItemsUseCase
 
-class FakeGetFactsUseCase : GetFactsUseCase {
-    val factItemList: LinkedHashMap<Int, FactItemModel> = LinkedHashMap()
-    var result:Result<List<FactItemModel>> = Result.Success(factItemList.values.toList())
+class FakeGetFactsUseCase : GetItemsUseCase {
+    val items: LinkedHashMap<Int, Item> = LinkedHashMap()
+    var result: Result<List<Item>>?=null
     private val startPage = 1
 
-    override suspend fun invoke(): Result<List<FactItemModel>> {
-        return result
-    }
-
-    override suspend fun refreshFactsRepository(): Result<String> {
-        return Result.Success("Success")
+    override suspend fun invoke(): Result<List<Item>> {
+        return result?:Result.Success(items.values.toList())
     }
 
     override var page: Int = startPage
 
     override suspend fun getFactsItemsSize(): Int {
-        return factItemList.size
+        return items.size
+    }
+
+    override suspend fun getItemsSortedByPrice(): Result<List<Item>> {
+
+        return Result.Success(items.values.toList().sortedBy {
+            it.price
+        })
+    }
+
+    override suspend fun getItemsSortedByCategory(): Result<List<Item>> {
+        TODO("Not yet implemented")
     }
 
     @VisibleForTesting
-    fun addNews(vararg news: FactItemModel) {
-        for (newsItem in news) {
-            factItemList[newsItem.factNumber] = newsItem
+    fun addNews(vararg news: Item) {
+        news.forEachIndexed { index, item ->
+            items[index]=item
         }
+
     }
 
 }
